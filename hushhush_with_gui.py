@@ -58,6 +58,13 @@ class MainWindow(QWidget):
                 self.write_button.clicked.connect(self.write_button_Clicked)
 
         def read_button_Clicked(self):
+            """
+            when clicked, the button will clear the passphrase try and read the file. 
+            If the passphrase is wrong then the app will crash ... will fix it
+
+            If the passphrase is correct then the textfile will be decoded and displayed on the screen
+            The write to file field will be filled with the file path that was read
+            """
 
             self.key = hushhush.make_key(self.passphrase.text())
             self.passphrase.setText("")
@@ -79,6 +86,12 @@ class MainWindow(QWidget):
             del decoded_text_to_display
 
         def write_button_Clicked(self):
+            """
+            When clicked, whatever is in the text field will be encrypted and sent to a file
+            To decrypt it you will need to remember the passphrase
+            If the file doesn't exist then one will be created
+            If the file is opened it may not be written to and crash ... will fix it
+            """
 
             text_to_be_hashed = self.textEdit.toPlainText()
 
@@ -96,8 +109,7 @@ class MainWindow(QWidget):
             with atomic_write(write_filepath, overwrite=True) as writer:  
 
                 for line in lines_of_text:
-                    writer.write(f'{hushhush.encode_message(line,self.chiper_coder)}')
-                    writer.write('\n')
+                    writer.write(f'{hushhush.encode_message(line,self.chiper_coder)}\n')
     
                 del lines_of_text
 

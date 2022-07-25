@@ -6,8 +6,16 @@ from atomicwrites import atomic_write
 
 UTF = 'utf-8'
 
-def make_key(passphrase):
-    
+def make_key(passphrase:str)->bytes:
+    """
+    makes key for Fernet chiper
+
+    Args:
+        passphrase (str): password given by user
+
+    Returns:
+        bytes: a key to be used in Fernet chiper
+    """
     hashed_passphrase = hashlib.sha256()
     hashed_passphrase.update(bytes(passphrase,UTF))
     
@@ -15,12 +23,32 @@ def make_key(passphrase):
 
     return key
 
-def encode_message(message,chiper_coder):
-    
+def encode_message(message:str,chiper_coder:Fernet)->str: 
+    """
+    Encrypts message from user
+
+    Args:
+        message (str): message to be encrypted
+        chiper_coder (Fernet): Fernet object from cryptography library
+
+    Returns:
+        str: Encrypted str aka random gibberish
+    """
     return chiper_coder.encrypt(bytes(message,UTF)).decode(UTF)
 
-def decode_message(message,chiper_coder):
-    
+def decode_message(message:str,chiper_coder:Fernet)->str:
+    """
+    Decrypts message from user. 
+    Function will fail if passphrase used to make the chiper_coder is not the same passphrase used to encrypt message.
+
+    Args:
+        message (str): message to be decrypted
+        chiper_coder (Fernet): Fernet object from cryptography library
+
+    Returns:
+        str: plain text
+    """
+
     return chiper_coder.decrypt(bytes(message,UTF)).decode(UTF)
 
 if __name__ == "__main__":
