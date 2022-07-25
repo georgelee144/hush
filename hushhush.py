@@ -3,7 +3,6 @@ import getpass
 import hashlib
 import base64
 from atomicwrites import atomic_write
-import os
 
 UTF = 'utf-8'
 
@@ -25,6 +24,8 @@ def decode_message(message,chiper_coder):
     return chiper_coder.decrypt(bytes(message,UTF)).decode(UTF)
 
 if __name__ == "__main__":
+
+    #testing random stuff
 
     passphrase = getpass.getpass()
     key = make_key(passphrase)
