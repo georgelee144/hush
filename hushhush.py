@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+from cryptography.fernet import InvalidToken
 import getpass
 import hashlib
 import base64
@@ -49,7 +50,16 @@ def decode_message(message:str,chiper_coder:Fernet)->str:
         str: plain text
     """
 
-    return chiper_coder.decrypt(bytes(message,UTF)).decode(UTF)
+    try:
+        return chiper_coder.decrypt(bytes(message,UTF)).decode(UTF)
+
+    except InvalidToken:
+        return -1
+        
+    except Exception as e:
+        return e
+
+
 
 if __name__ == "__main__":
 
